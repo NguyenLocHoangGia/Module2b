@@ -7,32 +7,42 @@ public class MyList<E> {
     private static final int DEFAULT_CAPACITY=10;
     private Object elements[];
 
-    public MyList(int length){
+    public MyList() {
         elements = new Object[DEFAULT_CAPACITY];
     }
 
-    public MyList() {
-
+    public MyList(int capacity) {
+        elements = new Object[capacity];
     }
 
     public void ensureCapa(){
         int newSize = elements.length * 2;
         elements = Arrays.copyOf(elements, newSize);
     }
-    public void add(int index, E e){
-        if (size == elements.length){
-            ensureCapa();
+    public void add(E element, int index) {
+        if (index >= elements.length) {
+            throw new IllegalArgumentException("index: " + index);
+        } else if (elements.length == size) {
+            this.ensureCapacity(3);
         }
-        elements[size++]=elements[elements.length-1];
-        for (int i = elements.length-1; i >index ; i--) {
-            elements[i]=elements[i-1];
+
+        if (elements[index] == null) {
+            elements[index] = element;
+            size++;
+        } else {
+            for (int i = size + 1; i >= index; i--) {
+                elements[i] = elements[i - 1];
+            }
+            elements[index] = element;
+            size++;
         }
-        elements[index]=e;
     }
-    public E remove(int index){
-        while (index >= index){
-            System.out.println("Out of range");
+
+    public E remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
+
         E removedElement = (E) elements[index];
 
         for (int i = index; i < size - 1; i++) {
@@ -43,8 +53,8 @@ public class MyList<E> {
         size--;
 
         return removedElement;
-
     }
+
     public int size(){
         return size;
     }
@@ -91,5 +101,13 @@ public class MyList<E> {
             elements[i] = null;
         }
         size = 0;
+    }
+
+    public E contains() {
+        return null;
+    }
+
+    public E indexOf(E i) {
+        return null;
     }
 }
